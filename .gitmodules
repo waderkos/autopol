@@ -1,0 +1,63 @@
+[submodule "htdocs"]
+	path = htdocs
+	url = https://github.com/InternetDevels/drupal-core.git
+[submodule "sites/all/modules/contrib/globalredirect"]
+	path = sites/all/modules/contrib/globalredirect
+	url = http://git.drupal.org/project/globalredirect.git
+	branch = 7.x-1.x
+[submodule "sites/all/modules/contrib/admin_menu"]
+	path = sites/all/modules/contrib/admin_menu
+	url = http://git.drupal.org/project/admin_menu.git
+	branch = 7.x-3.x
+[submodule "sites/all/modules/contrib/ctools"]
+	path = sites/all/modules/contrib/ctools
+	url = http://git.drupal.org/project/ctools.git
+	branch = 7.x-1.x
+[submodule "sites/all/modules/contrib/token"]
+	path = sites/all/modules/contrib/token
+	url = http://git.drupal.org/project/token.git
+	branch = 7.x-1.x
+[submodule "sites/all/modules/contrib/views"]
+	path = sites/all/modules/contrib/views
+	url = http://git.drupal.org/project/views.git
+	branch = 7.x-3.x
+[submodule "sites/all/modules/contrib/pathauto"]
+	path = sites/all/modules/contrib/pathauto
+	url = http://git.drupal.org/project/pathauto.git
+	branch = 7.x-1.x
+[submodule "sites/all/modules/contrib/google_analytics"]
+	path = sites/all/modules/contrib/google_analytics
+	url = http://git.drupal.org/project/google_analytics.git
+	branch = 7.x-2.x
+[submodule "sites/all/modules/contrib/xmlsitemap"]
+	path = sites/all/modules/contrib/xmlsitemap
+	url = http://git.drupal.org/project/xmlsitemap.git
+	branch = 7.x-2.x
+[submodule "sites/all/modules/contrib/elysia_cron"]
+	path = sites/all/modules/contrib/elysia_cron
+	url = http://git.drupal.org/project/elysia_cron.git
+	branch = 7.x-2.x
+[submodule "sites/all/modules/contrib/metatag"]
+	path = sites/all/modules/contrib/metatag
+	url = http://git.drupal.org/project/metatag.git
+	branch = 7.x-1.x
+[submodule "sites/all/modules/contrib/wysiwyg"]
+	path = sites/all/modules/contrib/wysiwyg
+	url = http://git.drupal.org/project/wysiwyg.git
+	branch = 7.x-2.x
+[submodule "sites/all/modules/contrib/imce"]
+	path = sites/all/modules/contrib/imce
+	url = http://git.drupal.org/project/imce.git
+	branch = 7.x-1.x
+[submodule "sites/all/themes/omega"]
+	path = sites/all/themes/omega
+	url = https://git.drupal.org/project/omega.git
+	branch = 7.x-4.x
+[submodule "sites/all/modules/contrib/omega_tools"]
+	path = sites/all/modules/contrib/omega_tools
+	url = https://git.drupal.org/project/omega_tools.git
+	branch = 7.x-3.x
+[submodule "sites/all/modules/contrib/block_class"]
+	path = sites/all/modules/contrib/block_class
+	url = https://git.drupal.org/project/block_class.git
+	branch = 7.x-2.x

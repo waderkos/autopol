@@ -1,0 +1,14 @@
+@media (min-width: 70em) {
+  /* line 3, ../../scss/responsive/media.scss */
+  body header.l-header,
+  body footer.l-footer {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* line 9, ../../scss/responsive/media.scss */
+  div.l-main {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+}

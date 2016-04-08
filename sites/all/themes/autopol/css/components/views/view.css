@@ -1,0 +1,45 @@
+/* line 2, ../../../scss/components/views/view.scss */
+.view-display-id-hm_details .views-row {
+  padding-left: 170px;
+  margin-bottom: 30px;
+}
+/* line 6, ../../../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field-title,
+.view-display-id-hm_details .views-field-body,
+.view-display-id-hm_details .views-field-field-price {
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  letter-spacing: -0.2px;
+  word-wrap: break-word;
+}
+/* line 16, ../../../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field-field-foto {
+  margin-left: -170px;
+  max-width: 150px;
+  float: left;
+}
+/* line 21, ../../../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field.views-field-body {
+  font-size: 14px;
+}
+/* line 25, ../../../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field-title a {
+  color: #000;
+}
+/* line 27, ../../../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field-title a:first-letter {
+  text-transform: uppercase;
+  color: red;
+}
+
+/* line 36, ../../../scss/components/views/view.scss */
+.view-news .views-row {
+  margin-bottom: 50px;
+}
+/* line 39, ../../../scss/components/views/view.scss */
+.view-news .views-field-field-image {
+  float: left;
+  margin-right: 20px;
+}

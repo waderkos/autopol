@@ -1,0 +1,43 @@
+.view-display-id-hm_details {
+	.views-row {
+	  padding-left: 170px;
+	  margin-bottom: 30px;
+	}
+	.views-field-title,
+	.views-field-body,
+	.views-field-field-price {
+		font-size: 20px;
+		line-height: 24px;
+		margin-bottom: 10px;
+		overflow: hidden;
+		letter-spacing: -0.2px;
+		word-wrap: break-word;
+	}
+	.views-field-field-foto {
+		margin-left: -170px;
+		max-width: 150px;
+		float: left;
+	}
+	.views-field.views-field-body {
+		font-size: 14px;
+	}
+	.views-field-title {
+		a {
+			color: #000;
+			&:first-letter {
+				text-transform: uppercase;
+				color: red;
+			}
+		}
+	}
+}
+
+.view-news {
+	.views-row {
+		margin-bottom: 50px;
+	}
+	.views-field-field-image {
+		float: left;
+		margin-right: 20px;
+	}
+}

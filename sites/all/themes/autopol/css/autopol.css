@@ -1,0 +1,179 @@
+/* No files to import found in mixins/**\/* */
+/* No files to import found in base/**\/* */
+/* No files to import found in old_css/**\/* */
+/* line 1, ../scss/components/pages/general.scss */
+body {
+  background: #f4f2eb;
+  font-family: "Open Sans", "Verdana", "Ubuntu", Arial, FreeSans, sans-serif;
+}
+
+/* line 5, ../scss/components/pages/general.scss */
+html, body, .l-page {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100%;
+  position: relative;
+}
+
+/* line 12, ../scss/components/pages/general.scss */
+header {
+  width: 100%;
+  background: #ef6423;
+}
+
+/* line 16, ../scss/components/pages/general.scss */
+footer.l-footer {
+  display: block;
+  vertical-align: top;
+  padding: 10px 0;
+  margin-bottom: 0px;
+  min-height: 275px;
+  border-bottom: 1px solid #dfdfdf;
+  background: linear-gradient(to bottom, #050100 0%, #212020 0%, #1f1e1d 50%, #292424 99%, #000000 100%);
+  font-size: 13px;
+  position: relative;
+  box-shadow: 0 1px 0 #f4f4f4;
+}
+
+/* line 28, ../scss/components/pages/general.scss */
+ul, ol {
+  list-style: none;
+}
+
+/* line 31, ../scss/components/pages/general.scss */
+a, p, ul, ol, li, img, span, strong, em {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  font: inherit;
+}
+
+/* line 40, ../scss/components/pages/general.scss */
+.l-main {
+  max-width: 980px;
+  margin: 0 auto;
+  min-width: 240px;
+  min-height: 100%;
+  height: auto !important;
+  padding: 10px 20px;
+}
+
+/* line 48, ../scss/components/pages/general.scss */
+.l-region--navigation {
+  background: linear-gradient(to bottom, #050100 0%, #212020 0%, #1f1e1d 50%, #292424 99%, #000000 100%);
+  border-top: 0px solid #2f2e2e;
+  border-bottom: 0px solid #2f2e2e;
+  height: 50px;
+}
+
+/* line 54, ../scss/components/pages/general.scss */
+.l-branding {
+  margin: 30px;
+}
+
+/* line 1, ../scss/components/pages/menus.scss */
+.main-menu {
+  max-width: 980px;
+  margin: 0 auto;
+}
+/* line 4, ../scss/components/pages/menus.scss */
+.main-menu h2 {
+  display: none;
+}
+/* line 7, ../scss/components/pages/menus.scss */
+.main-menu ul {
+  width: auto;
+  margin: 0 auto;
+}
+/* line 10, ../scss/components/pages/menus.scss */
+.main-menu ul li {
+  display: inline;
+  float: left;
+  list-style-image: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+/* line 18, ../scss/components/pages/menus.scss */
+.main-menu ul li a {
+  font-size: 13px;
+  height: 40px;
+  line-height: 40px;
+  display: block;
+  font-family: "Open Sans", "Verdana", "Ubuntu", Arial, FreeSans, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 15px;
+  text-decoration: none;
+  color: #f4f2eb;
+}
+/* line 29, ../scss/components/pages/menus.scss */
+.main-menu ul li a.active {
+  background: linear-gradient(to bottom, #1c1614 0%, #373636 0%, #3a3938 50%, #443e3e 99%, #141414 100%);
+}
+
+/* line 2, ../scss/components/views/view.scss */
+.view-display-id-hm_details .views-row {
+  padding-left: 170px;
+  margin-bottom: 30px;
+}
+/* line 6, ../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field-title,
+.view-display-id-hm_details .views-field-body,
+.view-display-id-hm_details .views-field-field-price {
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  letter-spacing: -0.2px;
+  word-wrap: break-word;
+}
+/* line 16, ../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field-field-foto {
+  margin-left: -170px;
+  max-width: 150px;
+  float: left;
+}
+/* line 21, ../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field.views-field-body {
+  font-size: 14px;
+}
+/* line 25, ../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field-title a {
+  color: #000;
+}
+/* line 27, ../scss/components/views/view.scss */
+.view-display-id-hm_details .views-field-title a:first-letter {
+  text-transform: uppercase;
+  color: red;
+}
+
+/* line 36, ../scss/components/views/view.scss */
+.view-news .views-row {
+  margin-bottom: 50px;
+}
+/* line 39, ../scss/components/views/view.scss */
+.view-news .views-field-field-image {
+  float: left;
+  margin-right: 20px;
+}
+
+@media (min-width: 70em) {
+  /* line 3, ../scss/responsive/media.scss */
+  body header.l-header,
+  body footer.l-footer {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* line 9, ../scss/responsive/media.scss */
+  div.l-main {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+}

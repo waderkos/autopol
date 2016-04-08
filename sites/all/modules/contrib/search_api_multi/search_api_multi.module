@@ -1,0 +1,197 @@
+<?php
+
+/**
+ * Implements hook_views_api().
+ */
+function search_api_multi_views_api() {
+  if (module_exists('search_api_views')) {
+    return array(
+      'api' => '3.0-alpha1',
+      'path' => drupal_get_path('module', 'search_api_multi') . '/views',
+    );
+  }
+}
+
+/**
+ * Adds a node access filter to a search query, if applicable.
+ *
+ * @param object $account
+ *   The user object, who searches.
+ * @param object $index
+ *   The search index object.
+ * @param SearchApiMultiQueryInterface $query
+ *   The query to which a node access filter should be added, if applicable.
+ * @param string $type
+ *   (optional) The type of search – either "node" or "comment". Defaults to
+ *   "node".
+ *
+ * @throws SearchApiException
+ *   If not all necessary fields are indexed on the index.
+ */
+function _search_api_multi_query_add_node_access($account, $index, SearchApiMultiQueryInterface $query, $type = 'node') {
+  // Don't do anything if the user can access all content.
+  if (user_access('bypass node access', $account)) {
+    return;
+  }
+
+  $is_comment = ($type == 'comment');
+  $index_name = $index->machine_name;
+
+  // Check whether the necessary fields are indexed.
+  $fields = $index->options['fields'];
+  $required = array('search_api_access_node', 'status');
+  if (!$is_comment) {
+    $required[] = 'author';
+  }
+  foreach ($required as $field) {
+    if (empty($fields[$field])) {
+      $vars['@field'] = $field;
+      $vars['@index'] = $index->name;
+      throw new SearchApiException(t('Required field @field not indexed on index @index. Could not perform access checks.', $vars));
+    }
+  }
+
+  // If the user cannot access content/comments at all, return no results.
+  if (!user_access('access content', $account) || ($is_comment && !user_access('access content', $account))) {
+    // Simple hack for returning no results.
+    $query->condition($index_name . ':status', 0);
+    $query->condition($index_name . ':status', 1);
+    watchdog('search_api', 'User @name tried to execute a search, but cannot access content.', array('@name' => theme('username', array('account' => $account))), WATCHDOG_NOTICE);
+    return;
+  }
+
+  $index_filter = $query->createFilter('OR');
+  $index_filter->condition('search_api_multi_index', $index_name, '<>');
+
+  $access_filter = $query->createFilter('AND');
+
+  // Filter by the "published" status.
+  $published = $is_comment ? COMMENT_PUBLISHED : NODE_PUBLISHED;
+  if (!$is_comment && user_access('view own unpublished content')) {
+    $filter = $query->createFilter('OR');
+    $filter->condition($index_name . ':status', $published);
+    $filter->condition($index_name . ':author', $account->uid);
+    $access_filter->filter($filter);
+  }
+  else {
+    $access_filter->condition($index_name . ':status', $published);
+  }
+
+  // Filter by node access grants.
+  $filter = $query->createFilter('OR');
+  $grants = node_access_grants('view', $account);
+  foreach ($grants as $realm => $gids) {
+    foreach ($gids as $gid) {
+      $filter->condition($index_name . ':search_api_access_node', "node_access_$realm:$gid");
+    }
+  }
+  $filter->condition($index_name . ':search_api_access_node', 'node_access__all');
+  $access_filter->filter($filter);
+
+  $index_filter->filter($access_filter);
+  $query->filter($index_filter);
+}
+
+/**
+ * Creates a multi-index search query.
+ *
+ * For backwards-compatibility reasons, the options can be passed as either the
+ * first or the second parameter, the other one is ignored.
+ *
+ * @param $options
+ *   Associative array of options configuring this query. Recognized options
+ *   are:
+ *   - conjunction: The type of conjunction to use for this query - either
+ *     'AND' or 'OR'. 'AND' by default. This only influences the search keys,
+ *     filters will always use AND by default.
+ *   - 'parse mode': The mode with which to parse the $keys variable, if it
+ *     is set and not already an array. See SearchApiMultiQuery::parseModes() for
+ *     recognized parse modes.
+ *   - languages: The languages to search for, as an array of language IDs.
+ *     If not specified, all languages will be searched. Language-neutral
+ *     content (LANGUAGE_NONE) is always searched.
+ *   - offset: The position of the first returned search results relative to
+ *     the whole result.
+ *   - limit: The maximum number of search results to return. -1 means no
+ *     limit.
+ *   - 'filter class': Can be used to change the SearchApiQueryFilterInterface
+ *     implementation to use.
+ *   - 'search id': A string that will be used as the identifier when storing
+ *     this search in the static cache.
+ *   All options are optional.
+ * @param array $options2
+ *   Deprecated. Exactly the same as $options. Will be used if $options is no
+ *   array.
+ *
+ * @return SearchApiMultiQueryInterface
+ *   A query object for searching multiple indexes.
+ */
+function search_api_multi_query($options = array(), array $options2 = array()) {
+  global $user;
+  $options = is_array($options) ? $options : $options2;
+  $query = new SearchApiMultiQuery($options);
+  foreach ($query->getIndexes() as $index) {
+    $type = $index->getEntityType();
+    if (!empty($index->options['data_alter_callbacks']["search_api_alter_{$type}_access"]['status']) && !$query->getOption('search_api_bypass_access')) {
+      $account = $query->getOption('search_api_access_account', $user);
+      if (is_numeric($account)) {
+        $account = user_load($account);
+      }
+      if (is_object($account)) {
+        try {
+          _search_api_multi_query_add_node_access($account, $index, $query, $type);
+        }
+        catch (SearchApiException $e) {
+          watchdog_exception('search_api_multi', $e);
+        }
+      }
+      else {
+        watchdog('search_api_multi', 'An illegal user UID was given for node access: @uid.', array('@uid' => $query->getOption('search_api_access_account', $user)), WATCHDOG_WARNING);
+      }
+    }
+  }
+  return $query;
+}
+
+/**
+ * Static store for the multi-index searches executed on the current page.
+ *
+ * Can either be used to store an executed search, or to retrieve a previously
+ * stored search.
+ *
+ * @param $search_id
+ *   For pages displaying multiple searches, an optional ID identifying the
+ *   search in questions. When storing a search, this is filled automatically,
+ *   unless it is manually set.
+ * @param SearchApiMultiQuery $query
+ *   When storing an executed search, the query that was executed. NULL
+ *   otherwise.
+ * @param array $results
+ *   When storing an executed search, the returned results as specified by
+ *   SearchApiMultiQueryInterface::execute(). An empty array, otherwise.
+ *
+ * @return array
+ *   If a search with the specified ID was executed, an array containing
+ *   ($query, $results) as used in this function's parameters. If $search_id is
+ *   NULL, an array of all executed searches will be returned, keyed by ID.
+ */
+function search_api_multi_current_search($search_id = NULL, SearchApiMultiQuery $query = NULL, array $results = array()) {
+  $searches = &drupal_static(__FUNCTION__, array());
+
+  if (isset($query)) {
+    if (!isset($search_id)) {
+      $search_id = $query->getOption('search id');
+    }
+    $base = $search_id;
+    $i = 0;
+    while (isset($searches[$search_id])) {
+      $search_id = $base . '-' . ++$i;
+    }
+    $searches[$search_id] = array($query, $results);
+  }
+
+  if (isset($searches[$search_id])) {
+    return $searches[$search_id];
+  }
+  return $searches;
+}

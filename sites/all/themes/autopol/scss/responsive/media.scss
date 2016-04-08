@@ -1,0 +1,13 @@
+@media (min-width: 70em) {
+	body {
+    header.l-header,
+    footer.l-footer {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  div.l-main {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+}
